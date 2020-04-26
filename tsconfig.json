@@ -39,7 +39,9 @@
     "strictPropertyInitialization": true,
     "suppressImplicitAnyIndexErrors": true,
     "target": "es5",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "rootDir": "src",
+    "outDir": "lib"
   },
   "exclude": [],
   "include": ["src"]
