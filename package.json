@@ -1,0 +1,30 @@
+{
+  "name": "gallery",
+  "version": "0.0.1-apha",
+  "description": "Inifinite gallery showing the edges",
+  "main": "index.js",
+  "author": "Thomas Brasington <tbrasington@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "framer-motion": "^1.10.3",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.8.3",
+    "ts-loader": "^6.2.2",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-loader": "^3.5.4",
+    "tslint-react-hooks": "^2.2.2"
+  }
+}
