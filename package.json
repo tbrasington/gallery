@@ -1,16 +1,25 @@
 {
   "name": "gallery",
   "version": "0.0.1-apha",
-  "description": "Inifinite gallery showing the edges",
-  "main": "index.js",
+  "description": "Infinite gallery showing the edges",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "jsnext:main": "build/index.es.js",
+  "types": "build/index.d.ts",
+  "directories": {
+    "src": "src"
+  },
   "author": "Thomas Brasington <tbrasington@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "parcel index.html",
-    "build" : "npm run tsc"
+    "build": "rollup -c"
   },
   "dependencies": {
+    "autoprefixer": "^9.7.6",
     "framer-motion": "^1.10.3",
+    "parcel-plugin-typed-css-modules": "^1.1.0",
+    "postcss-modules": "^2.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
@@ -21,11 +30,24 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^3.8.3",
+    "rollup": "^2.7.2",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-postcss": "^3.1.1",
+    "rollup-plugin-typescript2": "^0.27.0",
     "ts-loader": "^6.2.2",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-loader": "^3.5.4",
-    "tslint-react-hooks": "^2.2.2"
-  }
+    "tslint-react-hooks": "^2.2.2",
+    "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "files": [
+    "build"
+  ]
 }
