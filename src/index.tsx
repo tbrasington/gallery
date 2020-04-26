@@ -1,7 +1,13 @@
+import { ResizeObserver } from "@juggle/resize-observer"
 import { wrap } from "@popmotion/popcorn"
 import { AnimatePresence, motion } from "framer-motion"
 import React, { useState } from "react"
+import useMeasure from "react-use-measure"
 import styles from "./index.css"
+
+function convertRemToPixels(rem: number) {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+}
 
 const Gallery: React.FC<{
   children?: React.ReactNode
@@ -17,6 +23,7 @@ const Gallery: React.FC<{
   mutatedNodeArray.splice(0, 0, originalNodeArray[slideTotal - 1])
   mutatedNodeArray.splice(slideTotal + 1, 0, originalNodeArray[0])
 
+
   // state
   const [{ slide, direction, tree }, setPosition] = useState({
     slide: 0,
@@ -26,73 +33,71 @@ const Gallery: React.FC<{
 
   const imageIndex = wrap(0, slideTotal, slide)
 
-  const containerWidth = window.innerWidth
-  const slideWidth = containerWidth *.8
+  // motion and sizing
+  const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
+
+  const containerWidth = bounds.width
+  const slideWidth = (containerWidth * .7) + convertRemToPixels(4)
+  const trayWidth = slideWidth * showSlices
   // events
+
   const paginate = (newDirection: number) => {
     const treeIndex = wrap(0, slideTotal, slide + newDirection)
 
     setPosition({
       slide: slide + newDirection,
-      direction: newDirection
-      , tree: mutatedNodeArray.slice(treeIndex, treeIndex + showSlices)
+      direction: newDirection,
+      tree: mutatedNodeArray.slice(treeIndex, treeIndex + showSlices)
     })
+
   }
 
   // motion
   const variants = {
-    enter: (direction: number) => {
-      return {
-        x: direction > 0 ? window.innerWidth * 0.9 : -window.innerWidth * 0.9,
-        opacity: 0,
-      }
+    initial: {
+      x: (slideWidth - ((containerWidth - slideWidth) / 2)) * -1,
     },
-    center: {
-      x: (((slideWidth * slideTotal) - containerWidth) / 2) *-1,
-      opacity: 1,
-    },
-    exit: (direction: number) => {
-      return {
-        x: direction < 0 ? window.innerWidth * 0.9 : -window.innerWidth * 0.9,
-        opacity: 0,
-      }
+    direction: {
+      x: (containerWidth) * -1,
     }
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={ref}>
 
-      <AnimatePresence initial={false} custom={direction}>
-        <motion.div 
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{
-            x: { type: "spring", stiffness: 200, damping: 200 },
-            opacity: { duration: 0.7 },
-          }}
-          className={styles.track} style={{
-            width: `${slideTotal * 100}%`
-          }}>
-          {tree.map((node, index) => {
-            return (
-              <div key={index} className={styles.slide}>
-                {(node.position === imageIndex ? "🟢" : "🔵") + node.key}
-              </div>)
-          })}
-        </motion.div>
-      </AnimatePresence>
+      {bounds.width > 1 &&
+        <AnimatePresence custom={direction} initial={false}>
+          <motion.div
+            variants={variants}
+            initial="initial"
+            animate={direction !== 0 ? "direction" : "initial"}
 
-      <div>{imageIndex}</div>
+            transition={{
+              x: { type: "spring", stiffness: 200, damping: 200 }
+            }}
+            className={styles.track}
+            style={{
+              width :  trayWidth
+            }}>
+            {tree.map((node, index) => {
+              return (
+                <div key={index} className={styles.slide} style={{ width: `${slideWidth}px` }}>
+                  <div>
+                    {(node.position === imageIndex ? "🟢" : "🔵") + node.key}
+                  </div>
+                </div>)
+            })}
+          </motion.div>
+        </AnimatePresence>}
 
-      <div>
-        <button onClick={() => paginate(-1)}>Previous</button>
-        <button onClick={() => paginate(1)}>Next</button>
-      </div>
+        <div>{imageIndex}</div>
+
+        <div>
+          <button onClick={() => paginate(-1)}>Previous</button>
+          <button onClick={() => paginate(1)}>Next</button>
+        </div>
+
     </div>)
 }
 
 export default Gallery
- 

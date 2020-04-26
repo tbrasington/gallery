@@ -4,21 +4,32 @@
   display :flex;
   flex-direction: column;
   overflow : hidden;
+  position: relative;
 }
 
 .track {
+  box-sizing: border-box;
   display: flex;
-  width : auto;
   height: auto;
-  flex-shrink: 0;
+  width : 100%;
+  flex:1;
 }
 
 .slide {
-  flex-grow : 1;
-  width : 80%;
-  background-color: #eee;
+  display :flex;
+  box-sizing: border-box;
+  padding: 0 2rem;
+  flex:1;
 }
 
-.track :nth-child(2n+1) {
+.track .slide > div {
+border: 1px solid #000;
+background-color: #eee;
+width: 100%;
+align-items: center;
+justify-content:center;
+display :flex;
+}
+.track :nth-child(2n+1) .slide >  div {
   background-color : #ddd;
 }
