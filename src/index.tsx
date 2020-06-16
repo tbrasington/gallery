@@ -3,7 +3,7 @@ import { wrap } from "@popmotion/popcorn"
 import { AnimatePresence, motion } from "framer-motion"
 import React, { useState } from "react"
 import useMeasure from "react-use-measure"
-import styles from "./index.css"
+import styles from "./index.module.css"
 
 function convertRemToPixels(rem: number) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
@@ -17,7 +17,7 @@ const Gallery: React.FC<{
   const slideTotal = React.Children.count(children)
   const originalNodeArray = originalChildren.map((item: any, index: number) => ({ "key": item.key, "position": index }))
   const mutatedNodeArray = originalNodeArray.map((x) => x)
-  const showSlices = 3
+  const showSlices = 6
 
   // first tree to show
   mutatedNodeArray.splice(0, 0, originalNodeArray[slideTotal - 1])

@@ -4,3 +4,7 @@ dist
 lib
 build
 todo
+stats.html
+.rts2_cache_umd
+.rts2_cache_cjs
+.rts2_cache_es
